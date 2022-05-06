@@ -1,3 +1,6 @@
 Гладкое неподвижно кольцо, расположенное в горизонтальной плоскости, несёт четыре точечные массы $m_i$, i = 1, 2, 3, 4, последовательно соединенные невесомыми пружинами с жесткостями $c_i$, i = 1, 2, 3, 4, как показано на рисунке. Кроме того, на тело сверху действует диссипативная сила $Q = -\beta v$, где  $v$ - скорость этого тела, а $\beta > 0$. Найти и проанализировать движение системы.
 
-<img src="./images/to_analytical_mechanics.png" alt="analmech" align="right" height=100>
+
+Гладкое неподвижно кольцо, расположенное в горизонтальной плоскости, несёт четыре точечные массы <img src="https://latex.codecogs.com/gif.latex? m_i, i = 1, 2, 3, 4 " />, последовательно соединенные невесомыми пружинами с жесткостями <img src="https://latex.codecogs.com/gif.latex? c_i, i = 1, 2, 3, 4 " />, как показано на рисунке. Кроме того, на тело сверху действует диссипативная сила <img src="https://latex.codecogs.com/gif.latex? Q = -\beta v" />, где  <img src="https://latex.codecogs.com/gif.latex? v " /> - скорость этого тела, а <img src="https://latex.codecogs.com/gif.latex? \beta > 0" />. Найти и проанализировать движение системы.
+
+<p style="text-align:center;"><img src="./images/to_analytical_mechanics.png" alt="analmech" height=200>
