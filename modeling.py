@@ -38,16 +38,19 @@ class PhysicalSystem:
         )).astype(dtype=int)
 
 
-    def draw_body(self, i):
+    def __draw_body(self, i):
+        c = WHITE
+        if i == 0:
+            c = RED
         pygame.draw.circle(
             self.screen,
-            WHITE,
+            c,
             self.coords[:, i],
             10, # TODO
         )
 
         
-    def draw_spring(
+    def __draw_spring(
             self, 
             idx, 
             n_items=10, # TODO
@@ -91,10 +94,11 @@ class PhysicalSystem:
         )
 
         for i in range(self.q.shape[0]):
-            self.draw_body(i)
-
+            self.__draw_spring(i)
+            
         for i in range(self.q.shape[0]):
-            self.draw_spring(i)
+            self.__draw_body(i)
+
 
 
     def __find_point(self, angle, radius):
@@ -104,12 +108,18 @@ class PhysicalSystem:
         )
 
 
-
 class Model:
     def __init__(self, m, c, b, timedelta, q0, r):
         self.ps = PhysicalSystem(m, c, b, q0)
         self.r = r
         self.timedelta = timedelta
+
+        self.params = [
+            f"m: {m}", 
+            f"c: {c}",
+            f"b: {b}",
+            f"q0: {q0[0]:.2}, {q0[1]:.2}, {q0[2]:.2}, {q0[3]:.2}",
+        ]
 
     def must_exit(self):
         for event in pygame.event.get():
@@ -117,6 +127,18 @@ class Model:
             if event.type == pygame.QUIT:
                 return True
         return False
+
+    def __draw_params(self, t):
+        font = pygame.font.SysFont(None, 40)
+
+        curr_coords = np.array([20, 20])
+        img = font.render(f"time: {t:.2}", True, WHITE)
+        self.screen.blit(img, curr_coords)
+
+        for param in self.params:
+            curr_coords[1] += 22 # TODO
+            img = font.render(param, True, WHITE)
+            self.screen.blit(img, curr_coords)
 
     def run(self):
         pygame.init()
@@ -129,7 +151,7 @@ class Model:
         time_start = time.time()
 
         counter = 0
-        while counter < 100:
+        while counter < 1000:
             counter += 1
 
             self.clock.tick(FPS)
@@ -141,8 +163,9 @@ class Model:
             t = (time.time() - time_start) * self.timedelta
             self.ps.update_state(t)
             self.ps.draw()
-            time.sleep(0.2) # TODO
+            self.__draw_params(t)
 
             pygame.display.flip()
+            time.sleep(0.1) # TODO
         
         pygame.quit()
