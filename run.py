@@ -14,7 +14,6 @@ def main():
     parser.add_argument('--q0', dest="q0", action='store', type=float, help='initial state', nargs=4)
     args = parser.parse_args()
 
-    # run the arguments
     model = Model(args.m, args.c, args.b, args.timedelta, args.q0, args.r)
     model.run()
 

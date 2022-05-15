@@ -4,12 +4,15 @@ from scipy import linalg
 from copy import deepcopy
 
 class Solution:
-    def __init__(self, m, c, b, eps=1e-3):
+    def __init__(self, m, c, b):
+        '''
+            m - mass
+            c - stiffness coefficient
+            b - dissipative coefficient
+        '''
         self.b_ = b / m
         self.c_ = c / m
         self.roots = None
-        self.order = 5
-        self.eps = eps
 
     def find_eigen_vectors(self):
         '''
@@ -25,7 +28,9 @@ class Solution:
             return deepcopy(self.vectors)
 
         # init matrix B, C
-        B = np.zeros((4, 4), dtype=np.complex); B[0, 0] = self.b_
+        B = np.zeros((4, 4), dtype=np.complex)
+        B[0, 0] = self.b_
+        
         C = np.array([
             [2, -1, 0, -1],
             [-1, 2, -1, 0],
@@ -48,6 +53,9 @@ class Solution:
 
 
     def solve(self, q_0):
+        '''
+            find constants that fits to q_0
+        '''
 
         self.find_eigen_vectors()
 
@@ -59,12 +67,10 @@ class Solution:
         if q_0.shape[0] == 4:
             q_0 = np.vstack((q_0, np.zeros((4, 1))))
 
-        print(q_0.shape)
-        print(eq_matr.shape)
         # find constants
         self.constants = linalg.solve(eq_matr, q_0)
 
-    def q(self, t, eps=1e-3):
+    def q(self, t):
         coords_ = np.zeros(4, dtype=complex)
         for i in range(len(self.roots)):
             coords_ += self.constants[i] * self.cutted_vectors[i] * np.exp(t * self.roots[i])
