@@ -3,6 +3,7 @@ from solver import Solution
 import time
 from copy import deepcopy
 import numpy as np
+from collections import deque
 
 FPS = 30
 WIDTH = 1000
@@ -15,8 +16,31 @@ RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
 
+
+class MovingAverage:
+    def __init__(self, max_size):
+        self.deq = deque()
+        self.sum = np.zeros(4)
+        self.max_size = max_size
+
+    def update(self, state):
+        if len(self.deq) >= self.max_size:
+            q = self.deq.popleft()
+            self.sum -= q
+            self.update(state)
+        else:
+            self.deq.append(deepcopy(state))
+            self.sum += state
+
+    def get(self):
+        return self.sum / len(self.deq)
+
+    def is_full(self):
+        return len(self.deq) == self.max_size
+
+
 class PhysicalSystem:
-    def __init__(self, m, c, b, q0):
+    def __init__(self, m, c, b, q0, eps=1e-2):
         '''
             m - mass
             c - stiffness coefficient
@@ -30,6 +54,9 @@ class PhysicalSystem:
         # initial state
         self.start_value = np.array([np.pi / 2, 0.0, -np.pi/2, -np.pi])
         self.coords = None
+
+        self.average = MovingAverage(15) # TODO
+        self.eps = eps
 
     def set_diplay_valirables(
             self, 
@@ -57,13 +84,14 @@ class PhysicalSystem:
         self.body_r = body_r
         self.spring_n_turns = spring_n_turns
         self.spring_radius = spring_radius
-        
+
     def update_state(self, t_new):
         '''
             update the state of physical system
             in new moment of time
         '''
         self.q = np.real(self.solver.q(t_new))
+        self.average.update(self.q)
         self.angles = self.start_value - self.q
         self.coords = np.vstack(( # many points, so I can't use __find_point here
             self.center[0] + self.main_r * np.cos(self.angles), 
@@ -71,8 +99,9 @@ class PhysicalSystem:
         )).astype(dtype=int)
 
     def is_end(self):
-        pass
-
+        if not self.average.is_full():
+            return False
+        return np.linalg.norm(self.average.get() - self.q) < self.eps
 
     def __draw_body(self, i):
         c = WHITE
@@ -219,6 +248,11 @@ class Model:
 
             t = (time.time() - time_start) * self.timedelta
             self.ps.update_state(t)
+
+            if self.ps.is_end():
+                print(f"time_end: {t}")
+                break
+
             self.ps.draw()
             self.__draw_params(t)
 
