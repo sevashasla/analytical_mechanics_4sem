@@ -31,9 +31,11 @@ python3 run.py -b=1 -c=2 --q0 0.5 -0.5 0.5 0.0
 ```
 Далее откроется окно с моделированием процесса. В окне можно наблюдать параметрами, с которыми мы запустили систему. И ещё время, которое прошло в системе.
 
-<img src="./images/example1.png" alt="example1" height=200>
-<img src="./images/example2.png" alt="example2" height=200>
-<img src="./images/example3.png" alt="example3" height=200>
+<img src="./images/example1.png" alt="example1" height=400>
+<img src="./images/example2.png" alt="example2" height=400>
+<img src="./images/example3.png" alt="example3" height=400>
 
 ## Анализ
 Результаты можно посмотреть в папке `experiments`
+
+![image](https://github.com/sevashasla/analytical_mechanics_4sem/tree/master/images/res.gif)
