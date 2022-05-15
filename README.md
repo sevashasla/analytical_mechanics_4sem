@@ -38,4 +38,4 @@ python3 run.py -b=1 -c=2 --q0 0.5 -0.5 0.5 0.0
 ## Анализ
 Результаты можно посмотреть в папке `experiments`
 
-![image](https://github.com/sevashasla/analytical_mechanics_4sem/tree/master/images/res.gif)
+![image](https://github.com/sevashasla/analytical_mechanics_4sem/blob/master/images/res.gif)
