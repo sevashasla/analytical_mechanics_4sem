@@ -94,8 +94,8 @@ class PhysicalSystem:
         )
 
         for i in range(self.q.shape[0]):
-            self.__draw_spring(i)
-            
+                self.__draw_spring(i)
+
         for i in range(self.q.shape[0]):
             self.__draw_body(i)
 
@@ -132,7 +132,7 @@ class Model:
         font = pygame.font.SysFont(None, 40)
 
         curr_coords = np.array([20, 20])
-        img = font.render(f"time: {t:.2}", True, WHITE)
+        img = font.render(f"time: {np.round(t, 2)}", True, WHITE)
         self.screen.blit(img, curr_coords)
 
         for param in self.params:

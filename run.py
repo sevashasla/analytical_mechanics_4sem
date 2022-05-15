@@ -15,7 +15,7 @@ def main():
     args = parser.parse_args()
 
     # run the arguments
-    model = Model(args.m, args.b, args.c, args.timedelta, args.q0, args.r)
+    model = Model(args.m, args.c, args.b, args.timedelta, args.q0, args.r)
     model.run()
 
 if __name__ == "__main__":
